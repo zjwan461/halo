@@ -36,4 +36,10 @@ public class Todo extends BaseEntity {
     @Column(name = "content", length = 2000, nullable = false)
     private String content;
 
+    @Column(name = "status", nullable = false)
+    private Integer status;
+
+    @Column(name = "top")
+    private Integer top;
+
 }
