@@ -29,6 +29,7 @@ import run.halo.app.model.params.InstallParam;
 import run.halo.app.model.params.MenuParam;
 import run.halo.app.model.params.PostParam;
 import run.halo.app.model.params.SheetParam;
+import run.halo.app.model.properties.ApiProperties;
 import run.halo.app.model.properties.BlogProperties;
 import run.halo.app.model.properties.OtherProperties;
 import run.halo.app.model.properties.PrimaryProperties;
@@ -296,7 +297,9 @@ public class InstallController {
             StringUtils.isBlank(installParam.getUrl()) ? optionService.getBlogBaseUrl() :
                 installParam.getUrl());
         properties.put(OtherProperties.GLOBAL_ABSOLUTE_PATH_ENABLED, Boolean.FALSE.toString());
-
+        //新增个性化配置
+        properties.put(ApiProperties.API_ENABLED, Boolean.TRUE.toString());
+        properties.put(ApiProperties.API_ACCESS_KEY, "jerry.su");
         // Create properties
         optionService.saveProperties(properties);
     }
