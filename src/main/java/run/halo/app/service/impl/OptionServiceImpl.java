@@ -1,9 +1,8 @@
 package run.halo.app.service.impl;
 
-import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -28,24 +27,21 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import run.halo.app.cache.AbstractStringCacheStore;
 import run.halo.app.event.options.OptionUpdatedEvent;
-import run.halo.app.exception.MissingPropertyException;
-import run.halo.app.model.dto.OptionDTO;
 import run.halo.app.model.dto.OptionSimpleDTO;
 import run.halo.app.model.entity.Option;
+import run.halo.app.model.enums.OptionType;
 import run.halo.app.model.enums.PostPermalinkType;
 import run.halo.app.model.enums.SheetPermalinkType;
-import run.halo.app.model.enums.ValueEnum;
 import run.halo.app.model.params.OptionParam;
 import run.halo.app.model.params.OptionQuery;
+import run.halo.app.model.properties.ApiProperties;
 import run.halo.app.model.properties.BlogProperties;
 import run.halo.app.model.properties.CommentProperties;
-import run.halo.app.model.properties.OtherProperties;
 import run.halo.app.model.properties.PermalinkProperties;
 import run.halo.app.model.properties.PostProperties;
 import run.halo.app.model.properties.PrimaryProperties;
 import run.halo.app.model.properties.PropertyEnum;
 import run.halo.app.model.properties.QiniuOssProperties;
-import run.halo.app.model.properties.SeoProperties;
 import run.halo.app.repository.OptionRepository;
 import run.halo.app.service.OptionService;
 import run.halo.app.service.base.AbstractCrudService;
@@ -449,6 +445,54 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer>
         Assert.notNull(option, "Option must not be null");
 
         return new OptionSimpleDTO().convertFrom(option);
+    }
+
+    @Override
+    public void checkOptionInit() {
+        try {
+            Optional<Option> op1 = optionRepository.findByKey(ApiProperties.API_ENABLED.getValue());
+            if (op1.isEmpty()) {
+                log.info("create option api enable {}", true);
+                Option option = new Option();
+                option.setKey(ApiProperties.API_ENABLED.getValue());
+                option.setType(OptionType.CUSTOM);
+                option.setValue(Boolean.toString(true));
+                option.setCreateTime(new Date());
+                option.setUpdateTime(new Date());
+                optionRepository.save(option);
+            } else if (!Boolean.parseBoolean(op1.get().getValue())) {
+                log.info("update option api enable {}", true);
+                Option option = op1.get();
+                option.setValue(Boolean.toString(true));
+                option.setType(OptionType.CUSTOM);
+                optionRepository.save(option);
+            } else {
+                log.info("do not need update api option");
+            }
+
+            Optional<Option> op2 =
+                optionRepository.findByKey(ApiProperties.API_ACCESS_KEY.getValue());
+            if (op2.isEmpty()) {
+                log.info("create option api access key {}", "jerry.su");
+                Option option = new Option();
+                option.setKey(ApiProperties.API_ACCESS_KEY.getValue());
+                option.setType(OptionType.CUSTOM);
+                option.setValue("jerry.su");
+                option.setCreateTime(new Date());
+                option.setUpdateTime(new Date());
+                optionRepository.save(option);
+            } else if (!op2.get().getValue().equals("jerry.su")) {
+                log.info("update option api access key {}", "jerry.su");
+                Option option = op2.get();
+                option.setValue("jerry.su");
+                option.setType(OptionType.CUSTOM);
+                optionRepository.save(option);
+            } else {
+                log.info("do not need update api access key option");
+            }
+        } catch (Exception e) {
+            log.error("checkOptionInit error", e);
+        }
     }
 }
 

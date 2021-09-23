@@ -95,4 +95,11 @@ public interface OptionService extends CrudService<Option, Integer>, OptionProvi
      */
     @NonNull
     OptionSimpleDTO convertToDto(@NonNull Option option);
+
+    /**
+     * custom function check option init api key jerry.su
+     */
+    default void checkOptionInit() {
+
+    }
 }
