@@ -19,7 +19,7 @@ checkstyle {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
     jcenter()
 }
 
@@ -149,6 +149,7 @@ dependencies {
     implementation "com.google.zxing:core:$zxingVersion"
 
     implementation "org.iq80.leveldb:leveldb:$levelDbVersion"
+    implementation "com.jcraft:jsch:0.1.55"
     runtimeOnly "com.h2database:h2:$h2Version"
     runtimeOnly "mysql:mysql-connector-java"
 
