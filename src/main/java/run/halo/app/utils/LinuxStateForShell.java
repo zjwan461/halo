@@ -30,7 +30,7 @@ import run.halo.app.model.dto.ServerInfoDTO;
  *
  * @author wei.Li by 14-9-2.
  */
-class LinuxStateForShell {
+public class LinuxStateForShell {
 
 
     public static final String CPU_MEM_SHELL = "top -b -n 1";
@@ -400,10 +400,10 @@ class LinuxStateForShell {
     }
 
     public static void main(String[] args) {
-        Map<String, String> result =
-            runDistanceShell(COMMANDS, "spreadit", "asdf1111", "192.168.22.122");
         // Map<String, String> result =
-        //     runDistanceShell(COMMANDS, "devuser", "asdf1111", "156.247.9.176");
+        //     runDistanceShell(COMMANDS, "spreadit", "asdf1111", "192.168.22.122");
+        Map<String, String> result =
+            runDistanceShell(COMMANDS, "devuser", "asdf1111", "156.247.9.176");
         System.out.println(disposeResultMessage(result));
         System.out.println(getCpuInfo(result));
         System.out.println(getMemInfo(result));
@@ -426,10 +426,10 @@ class LinuxStateForShell {
                 for (String string : strings) {
                     if (string.contains("已使用")) {
                         String trim = string.replace("已使用", "").trim();
-                        serverInfoDTO.setMemoryUsed(disposeUnit(trim + "K"));
+                        serverInfoDTO.setMemoryUsed(disposeUnit(trim + "M"));
                     } else if (string.contains("总计")) {
                         String trim = string.replace("总计", "").trim();
-                        memTotal = disposeUnit(trim + "K");
+                        memTotal = disposeUnit(trim + "M");
                     }
                 }
                 serverInfoDTO.setMemoryFree(memTotal - serverInfoDTO.getMemoryUsed());

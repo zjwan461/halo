@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import run.halo.app.model.dto.ServerInfoDTO;
+import run.halo.app.service.ServerService;
 
 /**
  * @author Jerry.Su
@@ -13,9 +14,14 @@ import run.halo.app.model.dto.ServerInfoDTO;
 @RequestMapping("/api/content/server")
 public class ServerController {
 
+    private final ServerService serverService;
+
+    public ServerController(ServerService serverService) {
+        this.serverService = serverService;
+    }
+
     @GetMapping("/info")
     public ServerInfoDTO serverInfo() {
-
-        return null;
+        return serverService.getInfo();
     }
 }

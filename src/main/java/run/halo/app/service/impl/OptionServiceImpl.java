@@ -467,7 +467,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer>
                 option.setType(OptionType.CUSTOM);
                 optionRepository.save(option);
             } else {
-                log.info("do not need update api option");
+                log.info("do not need update api enable option");
             }
 
             Optional<Option> op2 =

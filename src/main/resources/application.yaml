@@ -42,8 +42,8 @@ spring:
       - file:///${halo.work-dir}/templates/
       - classpath:/templates/
     expose-spring-macro-helpers: false
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
 management:
   endpoints:
     web:
